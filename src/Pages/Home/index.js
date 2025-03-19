@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import banner from "../../image/banner.png";
 import homebutton1 from "../../image/homebutton1.png";
 import homebutton2 from "../../image/homebutton2.png";
@@ -19,21 +20,49 @@ import SaleItem from "../../Components/SaleItem";
 import "./style.css";
 
 function Home() {
+    const [showAnimation, setShowAnimation] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowAnimation(false);
+        }, 2000); // Hiệu ứng kéo dài 2.5 giây
+
+        return () => clearTimeout(timer);
+    }, []);
+
     const foodItems = [
-        { name: "Combo 1 Người", img: combo1 },
-        { name: "Combo 2 Người", img: combo2 },
-        { name: "Combo Nhóm 4", img: combo4 },
-        { name: "Hamburger", img: humberger },
-        { name: "Gà", img: ga },
-        { name: "Đồ Uống", img: douong },
-        { name: "Bánh Ngọt", img: banh },
-        { name: "Đồ Ăn Vặt", img: doanvat }
+        { name: "Combo 1 Người", img: combo1, src: `/combo` },
+        { name: "Combo 2 Người", img: combo2, src: `/combo` },
+        { name: "Combo Nhóm 4", img: combo4, src: `/combo`},
+        { name: "Hamburger", img: humberger, src: `/hamburger` },
+        { name: "Gà", img: ga, src: `/chicken` },
+        { name: "Đồ Uống", img: douong, src:`/drink` },
+        { name: "Bánh Ngọt", img: banh, src: `/cake` },
+        { name: "Đồ Ăn Vặt", img: doanvat, src: `/fingerfood` }
     ];
 
     const sales = [logosale1, logosale2];
 
     return (
         <>
+            {/* Hiệu ứng bánh hamburger chảy phô mai và nổ */}
+            <AnimatePresence>
+                {showAnimation && (
+                    <motion.div
+                        initial={{ scale: 0, opacity: 1 }}
+                        animate={{ scale: 8, opacity: 1 }}
+                        exit={{ scale: 10, opacity: 0 }}
+                        transition={{ duration: 2, ease: "easeOut" }}
+                        className="explosion-animation"
+                    >
+                        <div className="cheese-drip-container">
+                            <img src={humberger} alt="Hamburger Explosion" className="humberger-img" />
+                            <div className="cheese-drip"></div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* Banner */}
             <div className="banner">
                 <img src={banner} alt="Banner" />
@@ -52,7 +81,7 @@ function Home() {
             <h3 className="section-title">DANH MỤC MÓN ĂN</h3>
             <div className="food-category">
                 {foodItems.map((item, index) => (
-                    <FoodItem key={index} img={item.img} name={item.name} />
+                    <FoodItem key={index} img={item.img} name={item.name} src={item.src} />
                 ))}
             </div>
 

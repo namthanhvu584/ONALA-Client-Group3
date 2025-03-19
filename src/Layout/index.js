@@ -29,7 +29,7 @@ function Layout(){
                                 <NavLink to='/bestseller'>BESTSELLER</NavLink>
                             </li>
                             <li>
-                                <NavLink to='/order'>Đặt hàng </NavLink>
+                                <NavLink to='/onala'>Đặt hàng </NavLink>
                             </li>
                             <li>
                                 <NavLink to='/sale'>SALE</NavLink>

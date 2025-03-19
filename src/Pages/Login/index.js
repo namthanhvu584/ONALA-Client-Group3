@@ -1,150 +1,143 @@
 import { useState } from 'react';
-import { Button, Form, Input, Modal } from 'antd';
-import './style.css'
-import logo from "../../image/logo.png"
-import styles from './LoginForm.module.css'
-import clsx from 'clsx';
+import { Button, Form, Input, Modal, message } from 'antd';
 import { Link } from 'react-router-dom';
-import { FaGoogle } from "react-icons/fa";
-
-
-const onFinish = (values) => {
-  console.log('Success:', values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
+import { FaGoogle } from 'react-icons/fa';
+import axios from 'axios';
+import clsx from 'clsx';
+import './style.css';
+import logo from '../../image/logo.png';
+import styles from './LoginForm.module.css';
+import UserManagement from "../UserManagement";
 
 
 
-function Login(){
+const API_URL = 'http://localhost:8000/user';
+
+function Login() {
     const [form] = Form.useForm();
-
+    const [loading, setLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
-    const handelSubmitEmail = (values) => {
-        console.log('Email cần gửi:', values.email);
-        setIsModalOpen(false)
-    }
+    const [isOtpModalOpen, setIsOtpModalOpen] = useState(false);
+   
+   
+    const showModal = () => setIsModalOpen(true);
+    const handleCancel = () => setIsModalOpen(false);
+    const handleOtpCancel = () => setIsOtpModalOpen(false);
 
-    return(    
+    const handleSubmitEmail = async ({ email }) => {
+        setLoading(true);
+        try {
+            await axios.post(`${API_URL}/forgot-password`, { email });
+            message.success('OTP đã được gửi vào email của bạn!');
+            setIsModalOpen(false);
+            setIsOtpModalOpen(true);
+        } catch (error) {
+            message.error('Gửi email thất bại! Vui lòng thử lại.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSubmitOtp = async ({ otp, newPassword }) => {
+        setLoading(true);
+        console.log(otp)
+        try {
+            await axios.post(`${API_URL}/reset-password`, { otp_code: otp , newPassword: newPassword});
+            message.success('Mật khẩu đã được đặt lại thành công!');
+            setIsOtpModalOpen(false);
+        } catch (error) {
+            message.error('OTP không hợp lệ hoặc đã hết hạn!');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const onFinish = async (values) => {
+        setLoading(true);
+        try {
+            const { data } = await axios.post(`${API_URL}/login`, values);
+            message.success("login suscessfully");
+           
+            localStorage.setItem('token', data.token);
+            console.log("Email gửi đi:", values.email);
+            
+            const userIdResponse = await axios.post(`${API_URL}/get-id?email=${values.email}`);
+            
+            const userId = userIdResponse.data.data.id;
+            console.log(userId);
+            
+            if (userId) {
+                localStorage.setItem("user_id", userId);
+            }
+             window.location.href = '/userManagement'
+           
+            
+           
+        } catch (error) {
+            message.error('Đăng nhập thất bại. Vui lòng kiểm tra lại!');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
         <div className="contentForm">
-            <img src={logo} alt="logo" style={{ height: '530px', width: '500px', marginTop:'63px' }} />
+            <img src={logo} alt="logo" className="logo" style={{height: "500px"}}/>
             <div className="formContainer">
-                <h2 style= {{fontSize:'40px'}}>ĐĂNG NHẬP</h2>
-                <Form
-                    name="basic"
-                    labelCol={{
-                        span: 8,
-                    }}
-                    wrapperCol={{
-                        span: 16,
-                    }}
-                    style={{
-                        maxWidth: 600,
-                    }}
-                    initialValues={{
-                        remember: true,
-                    }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
-                >
-                <Form.Item
-                    
-                    name="username"
-                    rules={[
-                        {
-                        required: true,
-                        message: 'Please input your username!',
-                        },
-                    ]}
-                >
-                    <Input 
-                        className='underlineInput'
-                        placeholder='Địa chỉ email của bạn *'
-                    />
-                </Form.Item>
-
-                <Form.Item
-                    
-                    name="password"
-                    rules={[
-                        {
-                        required: true,
-                        message: 'Please input your password!',
-                        },
-                    ]}
-                    >
-                    <Input.Password 
-                        className='underlineInput'
-                        placeholder='Mật khẩu *'
-                    />
-                </Form.Item>
-                <>
+                <h2 className="title">ĐĂNG NHẬP</h2>
+                <Form form={form} onFinish={onFinish} autoComplete="off">
+                    <Form.Item name="email" rules={[{ required: true, message: 'Vui lòng nhập email!' }, { type: 'email', message: 'Email không hợp lệ!' }]}>
+                        <Input className='underlineInput' placeholder='Địa chỉ email của bạn *' />
+                    </Form.Item>
+                    <Form.Item name="password" rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}>
+                        <Input.Password className='underlineInput' placeholder='Mật khẩu *' />
+                    </Form.Item>
                     <p onClick={showModal} className="right-align">Quên Mật Khẩu?</p>
-                    <Modal title="BẠN QUÊN MẬT KHẨU ĐĂNG NHẬP?
-                                ĐỪNG LO, BẠN CÓ THỂ ĐẶT LẠI DỄ DÀNG" 
-                                open={isModalOpen} 
-                                onCancel={handleCancel}
-                                footer={null}
-                                width={679}
-                            >
-                        <p style={{fontSize:'14px'}}>CHÚNG TÔI SẼ GỬI MỘT LIÊN KẾT ĐẾN EMAIL CỦA BẠN ĐỂ ĐẶT LẠI MẬT KHẨU!</p>
-                        <Form form={form} name="forgot_password_form" onFinish={handelSubmitEmail}>
-                            <Form.Item
-                                name="email"
-                                label=""
-                                rules={[
-                                    { type: 'email', message: 'Email không hợp lệ!' },
-                                    { required: true, message: 'Vui lòng nhập email!' },
-                                ]}
-                            >
-                                <Input className="underlineInput retrieveInput" placeholder="Địa chỉ email của bạn *" />
-                            </Form.Item>
-                            <p style={{fontSize:'12px'}}>Hãy điền địa chỉ email của bạn tại đây!</p>
-                            <Form.Item>
-                                <Button 
-                                    type="primary" htmlType="submit" block
-                                    className= {clsx(styles.button,styles.btnSendEmail)}>
-                                    GỬI EMAIL ĐỂ ĐẶT LẠI MẬT KHẨU
-                                </Button>
-                            </Form.Item>
-                        </Form>
-
-                    </Modal>
-                </>
-                
-
-                <Form.Item label={null}>
-                <Button type="primary" htmlType="submit" className = {clsx(styles.button, styles.btnLogin)}>
-                    Đăng Nhập
-                </Button >
-                </Form.Item>
                 </Form>
-                <p style={{fontSize:'20px',padding:'6px 0px'}}>Hoặc Tiếp Tục Với</p>
-                <Button
-                        type="primary"   
-                        className= {clsx(styles.button,styles.btnGG)}
-                        icon={<FaGoogle />}
-                >
-                        Đăng nhập với Google
-                </Button>
-                <div style={{fontSize:'20px', textAlign:'center'}}>
-                    <p style={{marginTop:'40px'}}>Bạn chưa có tài khoản? 
-                        <Link to='/register' style={{fontWeight:'bold'}}>  Đăng kí</Link>
-                    </p>
-                </div>
+                
+                <Modal title="Quên mật khẩu?" open={isModalOpen} onCancel={handleCancel} footer={null}>
+                    <p>Chúng tôi sẽ gửi một mã OTP đến email của bạn để đặt lại mật khẩu!</p>
+                    <Form form={form} onFinish={handleSubmitEmail}>
+                        <Form.Item name="email" rules={[{ required: true, message: 'Vui lòng nhập email!' }, { type: 'email', message: 'Email không hợp lệ!' }]}>
+                            <Input placeholder="Nhập email của bạn" />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" loading={loading} className={clsx(styles.button, styles.btnSendEmail)}>
+                                Gửi OTP
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </Modal>
+
+                <Modal title="Nhập OTP để đặt lại mật khẩu" open={isOtpModalOpen} onCancel={handleOtpCancel} footer={null}>
+                    <Form form={form} onFinish={handleSubmitOtp}>
+                        <Form.Item name="otp" rules={[{ required: true, message: 'Vui lòng nhập OTP!' }]}>
+                            <Input placeholder="Nhập mã OTP" />
+                        </Form.Item>
+                        <Form.Item name="newPassword" rules={[{ required: true, message: 'Vui lòng nhập mật khẩu mới!' }]}>
+                            <Input.Password placeholder="Nhập mật khẩu mới" />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" loading={loading} className={clsx(styles.button, styles.btnSendEmail)}>
+                                Đặt lại mật khẩu
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </Modal>
+                
+                <Form.Item>
+                    <Button type="primary" onClick={() => form.submit()} loading={loading} className={clsx(styles.button, styles.btnLogin)}>
+                        Đăng Nhập
+                    </Button>
+                </Form.Item>
+                
+                <p className="separator">Hoặc Tiếp Tục Với</p>
+                <Button type="primary" className={clsx(styles.button, styles.btnGG)} icon={<FaGoogle />}>Đăng nhập với Google</Button>
+                
+                <p className="register-link">Bạn chưa có tài khoản? <Link to='/register'><b>Đăng ký</b></Link></p>
             </div>
-            
         </div>
-            
-        
-    )
+    );
 }
+
 export default Login;

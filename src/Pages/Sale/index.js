@@ -1,8 +1,12 @@
+import Category from "../../Components/Category/Category";
+import ProductCard2 from "../../Components/ProductCard2";
+
 function Sale(){
     return(
         <>
             {/*code vao day*/}
-            <div>Sale </div>
+            <Category/>
+            <ProductCard2 />
         </>
     )
 }

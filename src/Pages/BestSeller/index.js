@@ -1,8 +1,18 @@
+import Category from '../../Components/Category/Category'
+import ProductCard from '../../Components/ProductCard';
+import './style.css'
+
 function BestSeller(){
+
     return(
         <>
             {/*code vao day*/}
-            <div>BestSeller </div>
+            <Category/>
+            <ProductCard />
+            
+
+            
+            
 
         </>
     )

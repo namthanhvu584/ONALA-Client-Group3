@@ -1,0 +1,129 @@
+.chi-tiet-san-pham-1{
+    display: flex;
+}
+
+
+
+.hover-container {
+    display: inline-block;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .hover-container:hover {
+    transform: translateY(-10px); /* Nâng lên */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3); /* Đổ bóng */
+  }
+  
+  .hover-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+
+
+  .description_food {
+    margin: 40px 121px;
+    text-align: center;
+    padding: 30px;
+    background: #fff5e6;
+    border-radius: 15px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    animation: fade-in 1s ease-in-out;
+}
+
+/* Tiêu đề với hiệu ứng xuất hiện chữ từ trái sang phải (Typing effect) */
+.food_title {
+    font-weight: bold;
+    font-size: 42px;
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: typing 3s steps(30) 0.5s forwards, zoom-in-shake 1.2s ease-in-out;
+    white-space: nowrap; /* Đảm bảo chữ không xuống dòng */
+    overflow: hidden; /* Giới hạn độ dài */
+}
+
+/* Mô tả có hiệu ứng xuất hiện từ dưới lên + mờ dần (fade-up) */
+.food_description {
+    font-size: 28px;
+    color: #333;
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fade-up 1.5s ease-in-out forwards 1s, typing 4s steps(40) 0.5s forwards;
+}
+
+/* Hiệu ứng phát sáng khi hover */
+.description_food:hover {
+    box-shadow: 0px 8px 20px rgba(255, 105, 135, 0.5);
+    transform: scale(1.02);
+    transition: all 0.3s ease-in-out;
+}
+
+/* ====== ANIMATION KEYFRAMES ====== */
+
+/* Hiệu ứng fade-in khi xuất hiện */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Tiêu đề hiệu ứng zoom-in và shake */
+@keyframes zoom-in-shake {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(1) rotate(2deg);
+    }
+    85% {
+        transform: scale(1) rotate(-2deg);
+    }
+    100% {
+        transform: scale(1) rotate(0);
+    }
+}
+
+/* Hiệu ứng chữ gõ (typing effect) */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+/* Hiệu ứng gợn sóng + fade-up (chữ xuất hiện từ dưới lên) */
+@keyframes fade-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    30% {
+        opacity: 0.3;
+    }
+    60% {
+        opacity: 0.7;
+        transform: translateY(-5px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

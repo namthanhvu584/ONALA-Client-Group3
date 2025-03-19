@@ -11,3 +11,121 @@
     margin: 3rem 0 9.75rem 15.625rem;
 
 }
+
+
+
+
+.gio-hang {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffe6e6;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .gio-hang h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .ant-table {
+    background: #fff;
+    border-radius: 10px;
+  }
+  
+  .ant-table-thead > tr > th {
+    background: #fff5f5;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .ant-table-tbody > tr > td {
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  .ant-checkbox-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+  
+  img {
+    border-radius: 8px;
+  }
+  
+  /* 🔥 Hiệu ứng phát sáng cho nút "Mua ngay" */
+  .mua-ngay button {
+    font-size: 16px;
+    padding: 10px 24px;
+    background: #ff5e5e;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  
+  .mua-ngay button:hover {
+    background: #e60000;
+    box-shadow: 0px 0px 15px rgba(255, 94, 94, 0.8);
+  }
+  
+  /* 🎇 Animation lấp lánh */
+  @keyframes glow {
+    0% {
+      box-shadow: 0px 0px 10px rgba(255, 94, 94, 0.5);
+    }
+    50% {
+      box-shadow: 0px 0px 20px rgba(255, 94, 94, 0.9);
+    }
+    100% {
+      box-shadow: 0px 0px 10px rgba(255, 94, 94, 0.5);
+    }
+  }
+  
+  .mua-ngay button:active {
+    animation: glow 0.5s ease-in-out;
+  }
+  
+  /* 🌟 Hiệu ứng phát sáng cho nút xóa */
+  button.ant-btn-danger {
+    background: #ff4d4f;
+    border-radius: 5px;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  
+  button.ant-btn-danger:hover {
+    background: #d9363e;
+    box-shadow: 0px 0px 12px rgba(255, 77, 79, 0.8);
+  }
+
+ 
+
+  /* Tùy chỉnh checkbox */
+.ant-checkbox-inner {
+    width: 24px;
+    height: 24px;
+    border-color: black !important; /* Viền checkbox màu đen */
+  }
+  
+  /* Khi checkbox được chọn, nền sẽ đổi thành màu đen */
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: black !important; /* Màu nền khi được chọn */
+    border-color: black !important;
+  }
+  
+  /* Dấu tick màu trắng khi checkbox được chọn */
+  .ant-checkbox-checked .ant-checkbox-inner::after {
+    border-color: white !important;
+  }
+  
+  /* Hiệu ứng hover */
+  .ant-checkbox-wrapper:hover .ant-checkbox-inner {
+    border-color: black !important;
+  }
+  

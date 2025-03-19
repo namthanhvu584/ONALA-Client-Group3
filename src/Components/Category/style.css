@@ -1,0 +1,20 @@
+.img_1{
+    height: 120px;
+    width: 125px;
+}
+h2{
+    font-size: 16px;
+    text-align: center;
+}
+.category > a{
+    margin: 35px 20px;
+}
+.category{
+    display: flex;
+    margin-left: 97px;
+    margin-right: 100px;
+
+}
+.category > a:hover{
+    margin-top: 30px;
+}

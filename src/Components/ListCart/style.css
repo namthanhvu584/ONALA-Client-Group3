@@ -35,3 +35,46 @@
     top: 50%;
     transform: translate(-50%, -50%) rotate(45deg);
 }
+/*css them */
+.listCart {
+    position: relative;
+    padding: 20px;
+}
+
+.listCartHead {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+}
+
+.listCartBody {
+    margin-top: 10px;
+}
+
+.buy-now-button {
+    background-color: #28a745; /* Màu xanh */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+}
+
+.buy-now-button:hover {
+    background-color: #218838; /* Màu xanh đậm khi hover */
+}
+
+/* Khi cuộn, nút sẽ cố định bên phải */
+.fixed-button {
+    position: fixed;
+    bottom: 20px;
+    right: 120px;
+    z-index: 1000;
+}
