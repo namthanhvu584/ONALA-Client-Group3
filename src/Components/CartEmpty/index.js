@@ -4,7 +4,7 @@ import './style.css'
 function CartEmpty() {
     return ( 
         <>
-            <div className='cartEmptyBody'>
+            <div className='cartEmptyBody' style={{margin:'20px 121px'}}>
                 <img src= {cartEmpty} alt='cartEmpty' style={{width:'80%'}}/>
                 <div className='cartEmptyContent'>
                     <p>

@@ -12,7 +12,7 @@ function Cart() {
   const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]); 
   const user_id = localStorage.getItem("user_id");
-  console.log(user_id);
+  
   useEffect(() => {
     axios
       .get(`http://localhost:8000/cart/${user_id}`)
@@ -26,6 +26,7 @@ function Cart() {
         setLoading(false);
       });
   }, [user_id]);
+  
 
   const updateQuantity = (food_id, quantity) => {
     axios.put(`http://localhost:8000/cart`, { user_id, food_id, quantity }).then(() => {
@@ -59,25 +60,26 @@ function Cart() {
       message.warning("Vui lòng chọn ít nhất một sản phẩm để mua!");
       return;
     }
-
-    const selectedProducts = cart.item.filter((item) => selectedItems.includes(item.food_id));
-    const orderData = { user_id, cart_item: selectedProducts };
-
-    axios
-      .post("http://localhost:8000/order", orderData)
-      .then(({ data }) => {
-        message.success("Đặt hàng thành công!");
-        console.log("Đơn hàng:", data);
+    let selectedItemsList = cart?.item?.filter(item => selectedItems.includes(item.food_id));
+   
+    navigate("/orderinfo1", {
+      state: {
+        user_id,
        
-      })
-      .catch((error) => {
-        console.error("Lỗi đặt hàng:", error);
-        message.error("Đặt hàng thất bại!");
-      });
+        selectedItemsList,
+      },
+      
+    });
+   
+    
+ 
+
   };
 
   if (loading) return <p>Đang tải...</p>;
-  if (cart.item.length === 0) return <p>Giỏ hàng trống!</p>;
+  if (cart.item.length === 0){
+    navigate('/cartempty');
+  }
 
   const columns = [
     {

@@ -20,15 +20,7 @@ import SaleItem from "../../Components/SaleItem";
 import "./style.css";
 
 function Home() {
-    const [showAnimation, setShowAnimation] = useState(true);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setShowAnimation(false);
-        }, 2000); // Hiệu ứng kéo dài 2.5 giây
-
-        return () => clearTimeout(timer);
-    }, []);
+   
 
     const foodItems = [
         { name: "Combo 1 Người", img: combo1, src: `/combo` },
@@ -45,23 +37,7 @@ function Home() {
 
     return (
         <>
-            {/* Hiệu ứng bánh hamburger chảy phô mai và nổ */}
-            <AnimatePresence>
-                {showAnimation && (
-                    <motion.div
-                        initial={{ scale: 0, opacity: 1 }}
-                        animate={{ scale: 8, opacity: 1 }}
-                        exit={{ scale: 10, opacity: 0 }}
-                        transition={{ duration: 2, ease: "easeOut" }}
-                        className="explosion-animation"
-                    >
-                        <div className="cheese-drip-container">
-                            <img src={humberger} alt="Hamburger Explosion" className="humberger-img" />
-                            <div className="cheese-drip"></div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            
 
             {/* Banner */}
             <div className="banner">

@@ -54,7 +54,9 @@ function ChiTietSanPham() {
             state: {
                 user_id,
                 product,
-                quantity
+                quantity,
+                
+
             }
         });
     };

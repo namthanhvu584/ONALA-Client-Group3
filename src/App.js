@@ -23,6 +23,8 @@ import FingerFood from './Pages/FingerFood';
 import ChiTietSanPham from './Pages/ProductDetail';
 import OrderDetail from './Pages/OrderDetail';
 import Cart from './Pages/Cart';
+import OrderInfo1 from './Pages/OrderInfo1';
+import CartEmpty from './Components/CartEmpty'
 function App() {
   return (
     <>
@@ -54,8 +56,9 @@ function App() {
             <Route path='/onala' element={<ONALA/>} />
             <Route path='sale' element={<Sale/>} />
             <Route path= 'register' element = {<Register/>}/>
-           
+            <Route path='/cartempty' element={<CartEmpty/>} />
             <Route path='orderinfo' element= {<OrderInfo/>}/>
+            <Route path='orderinfo1' element= {<OrderInfo1/>}/>
           </Route>
          
            

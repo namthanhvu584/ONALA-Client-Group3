@@ -11,13 +11,23 @@ function UserInfo() {
     const user_id = localStorage.getItem("user_id") || null;
     const [edit, setEdit] = useState(false);
     const [form] = Form.useForm();
+    
 
     useEffect(() => {
         const fetchUserInfo = async () => {
             if (!user_id) return;
             try {
                 const response = await axios.get(`http://localhost:8000/user/${user_id}`);
-                form.setFieldsValue(response.data);
+                let userData = response.data;
+
+                // Nếu gender không tồn tại hoặc không hợp lệ, đặt mặc định là "0" (Nam)
+                if (userData.gender === undefined || !["0", "1"].includes(String(userData.gender))) {
+                    userData.gender = "0";
+                } else {
+                    userData.gender = String(userData.gender);
+                }
+
+                form.setFieldsValue(userData);
             } catch (error) {
                 message.error("Lỗi khi lấy thông tin người dùng!");
             }
@@ -30,7 +40,7 @@ function UserInfo() {
     const onFinish = async (values) => {
         try {
             await axios.put(`http://localhost:8000/user/update/${user_id}`, 
-                { ...values, role: 1 }, 
+                { ...values, role: 0 }, 
                 { headers: { "Content-Type": "application/json" } }
             );
             message.success("Cập nhật thông tin thành công!");
@@ -82,7 +92,7 @@ function UserInfo() {
                         </Form.Item>
 
                         <Form.Item name="gender" label="Giới tính">
-                            <Select className={styles.inputUserInfo}>
+                            <Select className={styles.inputUserInfo} defaultValue="0" style={{width: '280px '}}>
                                 <Option value="0">Nam</Option>
                                 <Option value="1">Nữ</Option>
                             </Select>
